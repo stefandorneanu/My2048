@@ -1,0 +1,51 @@
+Dorneanu Stefan Cristian
+311 CC 
+Cerinte rezolvate: (toate + bonus)
+1. Meniu functional cu optiunile 
+    New Game
+    Resume
+    Quit
+Dupa intrarea in jocul propriu-zis apasarea butonului q te intoarce la meniu
+Daca un joc este creat apasarea butonului resume te intoarce la joc
+
+2. Tabla de joc cu valorile cu 2 valori pe pozitii aleatorie cu valori 2 sau 4
+Panou cu data, timpul, scorul obtinut pana acum si legenda cu 
+comenzile valabile
+
+3. *Deplasearea si imbinarea celulelor
+   *Generearea unei celule noi dupa o miscare valida
+   *Daca mutarea este invalida, tabla nu se schiba si ateapta alta mutare
+   *Scorul este actualizat dupa fiecare mutare valida, care la inceput e 0
+
+Bonus: Fiecare celula a tablei de joc are un fund"al si o culoare de font 
+pentru identificarea mai usoare a celulelor care trebuie unita.
+Culorile pot fi modificare in functia culori
+
+4. Miscarea automata a celulelor dupa un anume timp.
+Miscarea realizata este cea care elibereaza cele mai multe celule
+
+Bonus: Timpul la care miscarea automata este realizata poate fi modificat usor
+
+5.In cazul in care jocul se termina unul din doua mesaje va fi afisat pe ecran:
+"Ai castigat", daca una dintre celeule primeste valoarea 2048
+"Ai pierdut", daca toate celulele sunt ocupate si nici o mutare nu mai poate 
+fi realizata
+
+Cum functioneaza:
+
+In main este apelata functia menu care afiseaza afiseaza meniul pe ecran.
+Pana la alegerea unei optiuni acesta poate fi parcurs in orice directie.
+In functie de optiunea aleasa valoarea choice primeste 1, 2 sau 3
+Daca choice primeste valoarea 1 pe ecran va aparea tabla de joc si panoul cu 
+detalii suplimentare. 
+Functia mutare este un loop infinit care permite mutarea elementelor din
+tabela la inputul unui taste valide, iar daca tasta nu e valida nu se intampla
+nimic. Dupa fiecare mutare se actualizeaza scorul, timpul si data.
+
+Iesirea din acest ecran se va realiza fie la apasarea tastei q, care pastreaza 
+tabela curenta, fie la terminarea jocului, unde se arata un mesaj corespunzator
+finalului pe care l-ai obtinut.
+
+Pentru detalii suplimentare accesati codul.
+
+Este sugerat sa rulati aplicatia in full screen.
