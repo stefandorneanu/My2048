@@ -1,51 +1,64 @@
-Dorneanu Stefan Cristian
-311 CC 
-Cerinte rezolvate: (toate + bonus)
-1. Meniu functional cu optiunile 
-    New Game
-    Resume
-    Quit
-Dupa intrarea in jocul propriu-zis apasarea butonului q te intoarce la meniu
-Daca un joc este creat apasarea butonului resume te intoarce la joc
+# Minimal Memory Allocator (libosmem)
 
-2. Tabla de joc cu valorile cu 2 valori pe pozitii aleatorie cu valori 2 sau 4
-Panou cu data, timpul, scorul obtinut pana acum si legenda cu 
-comenzile valabile
+**Student:** Dorneanu Stefan Cristian, 311 CC
 
-3. *Deplasearea si imbinarea celulelor
-   *Generearea unei celule noi dupa o miscare valida
-   *Daca mutarea este invalida, tabla nu se schiba si ateapta alta mutare
-   *Scorul este actualizat dupa fiecare mutare valida, care la inceput e 0
+This project is a complete implementation of the classic 2048 game in C, featuring all core requirements and several bonus functionalities for enhanced interactivity and user experience.
 
-Bonus: Fiecare celula a tablei de joc are un fund"al si o culoare de font 
-pentru identificarea mai usoare a celulelor care trebuie unita.
-Culorile pot fi modificare in functia culori
+---
 
-4. Miscarea automata a celulelor dupa un anume timp.
-Miscarea realizata este cea care elibereaza cele mai multe celule
+## Implemented Requirements
 
-Bonus: Timpul la care miscarea automata este realizata poate fi modificat usor
+### 1. Functional Main Menu
+The menu provides smooth navigation with the following options:
+* **New Game**
+* **Resume**: Becomes active only after a game has been started, allowing the continuation of the saved state.
+* **Quit**
 
-5.In cazul in care jocul se termina unul din doua mesaje va fi afisat pe ecran:
-"Ai castigat", daca una dintre celeule primeste valoarea 2048
-"Ai pierdut", daca toate celulele sunt ocupate si nici o mutare nu mai poate 
-fi realizata
+**In-Game Controls:**
+* Pressing the **`q`** key during gameplay saves the current board state and returns to the menu.
+* The **Resume** option loads the previously saved game.
 
-Cum functioneaza:
+### 2. Complete Game Board Interface
+The board is initialized with **two random values (2 or 4)** in random positions.
+The interface includes a side panel displaying:
+* Current Date and Time
+* The running **Score** (starts at 0)
+* A **Legend** showing the valid movement commands.
 
-In main este apelata functia menu care afiseaza afiseaza meniul pe ecran.
-Pana la alegerea unei optiuni acesta poate fi parcurs in orice directie.
-In functie de optiunea aleasa valoarea choice primeste 1, 2 sau 3
-Daca choice primeste valoarea 1 pe ecran va aparea tabla de joc si panoul cu 
-detalii suplimentare. 
-Functia mutare este un loop infinit care permite mutarea elementelor din
-tabela la inputul unui taste valide, iar daca tasta nu e valida nu se intampla
-nimic. Dupa fiecare mutare se actualizeaza scorul, timpul si data.
+### 3. Core Gameplay Mechanics
+* **Cell Movement and Merging**: Full logic for cell sliding and combining.
+* **New Cell Generation**: A new cell (2 or 4) is generated automatically **only after a valid move**.
+* **Invalid Moves**: If a move causes no change on the board, the board remains unchanged, and the system waits for another input.
+* **Score Update**: The score is updated after every valid move.
 
-Iesirea din acest ecran se va realiza fie la apasarea tastei q, care pastreaza 
-tabela curenta, fie la terminarea jocului, unde se arata un mesaj corespunzator
-finalului pe care l-ai obtinut.
+### Bonus: Visual Enhancement
+Every cell on the board has **distinct background and font colors** corresponding to its value. This visual aid makes identifying cells for merging easier. Colors can be easily adjusted within the `culori` function.
 
-Pentru detalii suplimentare accesati codul.
+### 4. Automatic Cell Movement (AI)
+The game includes an automatic move feature, triggered after a set time interval.
+* **Strategy**: The move performed is the one that **frees up the most cells** (maximizing potential for merges and space creation).
 
-Este sugerat sa rulati aplicatia in full screen.
+### Bonus: Adjustable Auto-Move Time
+The time interval for the automatic move can be easily modified in the source code.
+
+### 5. Game End Conditions
+When the game concludes, one of two messages is displayed on the screen:
+* **"Ai castigat" (You Won)**: If one cell reaches the value **2048**.
+* **"Ai pierdut" (You Lost)**: If all cells are occupied, and **no further valid moves can be made**.
+
+---
+
+## How It Works
+
+The main execution flow starts with the `menu` function call inside `main`.
+
+1.  **Menu Loop**: The menu can be navigated until an option is chosen (`choice` receives 1, 2, or 3).
+2.  **Game Start**: If `choice` is 1 or 2, the game board and detail panel are displayed.
+3.  **Movement Loop**: The `mutare` function enters an *infinite loop* that processes valid key inputs to change the board state. The score, time, and date are updated after every valid move.
+4.  **Exiting**: The game screen can be exited by:
+    * Pressing **`q`** (saves state and returns to the menu).
+    * The **Game Ending** (displays the final message).
+
+---
+
+> **Note:** It is suggested to run the application in **full screen** mode for correct interface display.
