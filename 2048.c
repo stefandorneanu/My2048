@@ -95,7 +95,7 @@ int main()
         "New Game",
         "Resume",
         "Quit"};
-    WINDOW *menu_win;
+    WINDOW *menu_win = NULL;
     //////// 2048 /////////
     int matrice[4][4];
     WINDOW *M2048[4][4];
@@ -104,6 +104,8 @@ int main()
     initscr();
     keypad(stdscr, TRUE);
     culori();
+    /* seed o singura data pentru intregul program */
+    srand(time(NULL));
     curs_set(0);
     noecho();
     cbreak();
@@ -223,8 +225,11 @@ void menu(WINDOW *menu_win, char **choices, WINDOW *M2048[][4],
         *resume = 1;
         // sterg scorul obtinut in jocul anterior
         *score = 0;
-        // sterg ferestra meniu de pe ecran si din memorie sa nu ocupe spatiu
-        sterge_ecran(menu_win);
+            // sterg ferestra meniu de pe ecran si din memorie sa nu ocupe spatiu
+            sterge_ecran(menu_win);
+            /* pointer-ul local devine dangling dupa stergere; setam NULL ca
+               să nu fie folosit accidental și să evităm double-delwin */
+            menu_win = NULL;
         init_matrice(matrice);
         init_M2048(M2048, menu_win, matrice, score);
         // afisez panoul cu informatii
@@ -247,6 +252,8 @@ void menu(WINDOW *menu_win, char **choices, WINDOW *M2048[][4],
         else if (*resume == 0)
         {
             sterge_ecran(menu_win);
+            /* evităm folosirea pointer-ului șters */
+            menu_win = NULL;
             mvwprintw(stdscr, 10, 10, "Mai intai trebuie sa creezi un joc nou");
             wrefresh(stdscr);
             getch();
@@ -281,7 +288,8 @@ void init_matrice(int matrice[][4])
 void init_M2048(WINDOW *M2048[][4], WINDOW *menu_win,
                 int matrice[][4], int *score)
 {
-    delwin(menu_win);
+    (void)score; /* parametrul nu e folosit aici; evitam warning */
+    (void)menu_win; /* menu_win este gestionat de apelant; evitam warning */
     // atribui valorile de inceput a tablei de joc
     random_val_atr(matrice);
     random_val_atr(matrice);
@@ -311,7 +319,6 @@ void init_M2048(WINDOW *M2048[][4], WINDOW *menu_win,
 
 void random_val_atr(int matrice[][4])
 {
-    srand(time(NULL));
     int rand_row, rand_col;
     int ok = 0, two_four[] = {2, 4}, val;
     while (!ok)
@@ -708,16 +715,15 @@ void afisare_panou(int *score)
     panx = (stdx + WIN_WIDTH * 5 - PAN_WIDTH) / 2;
     panou = newwin(PAN_HEIGHT, PAN_WIDTH, pany, panx);
     wbkgd(panou, COLOR_PAIR(20));
-    char *ora, *data;
-    time_t t;
-    struct tm *area;
-    t = time(NULL); // time(&t);
-    area = localtime(&t);
-    // atribui variabilelor ora si data datele corepunzatoare
-    ora = (char *)malloc(100);
-    ora = timestr(*area, ora);
-    data = (char *)malloc(100);
-    data = timestr2(*area, data);
+     char ora[100], data[100];
+     time_t t;
+     struct tm *area;
+     t = time(NULL);
+     area = localtime(&t);
+     /* atribui variabilelor ora si data datele corepunzatoare (folosim buffer pe stiva)
+         pentru a evita alocari inutile si scurgeri de memorie la apeluri repetate */
+     timestr(*area, ora);
+     timestr2(*area, data);
     int x, y;
     getyx(panou, y, x);
     ++y, ++x;
@@ -742,7 +748,6 @@ void afisare_panou(int *score)
     mvwprintw(panou, y, x, "Down arrwow key to move down");
     y = y + 1;
     wrefresh(panou);
-    // getchar();
     delwin(panou);
 }
 
