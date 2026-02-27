@@ -1,4 +1,4 @@
-# Minimal Memory Allocator (libosmem)
+# 2048
 
 **Student:** Dorneanu Stefan Cristian, 311 CC
 
